@@ -1,0 +1,2 @@
+build:
+	opa build -b .

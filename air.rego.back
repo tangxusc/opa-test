@@ -1,0 +1,17 @@
+package system.air
+
+import future.keywords.in
+
+default allow := false
+
+allow {
+	some input.sacNo in data[air].air.air.sacs
+}
+
+action := x {
+	x := data[air].air.air.action
+}
+
+order := y {
+	y := data[air].air.air.order
+}
