@@ -81,3 +81,55 @@ func TestBoundle(t *testing.T) {
 	marshal, _ := json.Marshal(result)
 	fmt.Println(string(marshal))
 }
+
+func TestBoundle2(t *testing.T) {
+	ctx := context.Background()
+
+	config := fmt.Sprintf(`{
+		"services": {
+			"air": {
+				"url": %q
+			}
+		},
+		"bundles": {
+			"air": {
+				"resource": "/opa/download/bundle.tar.gz"
+			}
+		},
+		"decision_logs": {
+			"console":true
+		}
+
+	}`, "http://localhost:8080/")
+
+	fmt.Println(config)
+
+	standardLogger := logging.New()
+	standardLogger.SetLevel(logging.Debug)
+
+	opa, err := sdk.New(ctx, sdk.Options{
+		Config: strings.NewReader(config),
+		Logger: standardLogger,
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	m := make(map[string]interface{})
+	err = json.Unmarshal([]byte(`{
+			"sacNo": "4613810890"
+		}`), &m)
+	if err != nil {
+		println(err)
+	}
+
+	defer opa.Stop(ctx)
+
+	result, err := opa.Decision(ctx, sdk.DecisionOptions{Path: "/rules", Input: m})
+	if err != nil {
+		println(err)
+		panic(err)
+	}
+	marshal, _ := json.Marshal(result)
+	fmt.Println(string(marshal))
+}

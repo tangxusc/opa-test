@@ -1,0 +1,35 @@
+### plugin list with param
+GET localhost:8080/plugins?module=sac&plugin_type=test&filter_type=filter_test
+
+### plugin list
+GET localhost:8080/plugins
+
+### ping
+GET localhost:8080/ping
+
+### rule list
+POST localhost:8080/rule/list
+
+### rule save
+POST localhost:8080/rule/save
+Content-Type: application/json
+
+{
+  "module": "air",
+  "plugin_type": "test",
+  "filter_type": "test",
+  "rule_name": "a",
+  "rule_body": "test",
+  "enable": true
+}
+
+### rule save
+POST localhost:8080/rule/delete
+Content-Type: application/json
+
+{
+  "id": 2
+}
+
+### rule download
+GET localhost:8080/opa/download
